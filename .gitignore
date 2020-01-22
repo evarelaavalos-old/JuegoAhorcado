@@ -1,0 +1,4 @@
+JuegoAhorcado/Debug/**
+Debug/**
+.vs/**
+.gitignore
