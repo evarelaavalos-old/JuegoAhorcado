@@ -12,8 +12,6 @@ std::string ObtenerLetra();
 bool PreguntarPorJugarOtraVez();
 
 FJuegoAhorcado FJAhorcado;
-// todo ver si se puede hacer exprconst
-int INTENTOS_MAXIMOS = FJAhorcado.ObtenerIntentosMaximos();
 
 // el punto de entrada para nuestra aplicacion
 int main()
@@ -33,12 +31,13 @@ int main()
 // introduciendo el juego
 void MostrarIntro()
 {
-	int LongitudPalabra = FJAhorcado.LongitudPalabraOculta();
+	int LongitudPalabraOculta = FJAhorcado.LongitudPalabraOculta();
+	int IntentosMaximos = FJAhorcado.ObtenerIntentosMaximos();
 
 	std::cout << "Bienvenido al juego del Ahorcado! ";
 	std::cout << "Un divertido juego de palabras!\n";
-	std::cout << "Podras adivinar esta palabra de " << LongitudPalabra;
-	std::cout << " letras antes de agotar los " << INTENTOS_MAXIMOS;
+	std::cout << "Podras adivinar esta palabra de " << LongitudPalabraOculta;
+	std::cout << " letras antes de agotar los " << IntentosMaximos;
 	std::cout << " intentos?\n";
 	std::cout << std::endl;
 }
@@ -47,11 +46,13 @@ void JugarAhorcado()
 {
 	FJAhorcado.Reiniciar();
 
+	int IntentosMaximos = FJAhorcado.ObtenerIntentosMaximos();
+
 	// obtener una letra valida por cada uno de los intentos
-	// todo cambiar el for por un while
+	// todo cambiar el FOR por un WHILE
 	// while el intento actual sea menor del maximo de intentos
 	// dejar que sea la clase de FJuegoAhorcado la que administre los intentos
-	for (int IntentoActual = 1; IntentoActual <= INTENTOS_MAXIMOS; IntentoActual++)
+	for (int IntentoActual = 1; IntentoActual <= IntentosMaximos; IntentoActual++)
 	{
 		std::string PalabraDescubierta = FJAhorcado.ObtenerPalabraDescubierta();
 		

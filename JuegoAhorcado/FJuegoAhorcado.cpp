@@ -9,12 +9,16 @@ std::string FJuegoAhorcado::ObtenerPalabraDescubierta() const { return MiPalabra
 
 void FJuegoAhorcado::Reiniciar()
 {
+	constexpr int INTENTOS_MAXIMOS = 5;
+	const std::string PALABRA_OCULTA = "Raqueta";
+	const int LONGITUD_PALABRA_OCULTA = PALABRA_OCULTA.length();
+
 	MiIntentoActual = 1;
-	MiIntentosMaximos = 5;
-	MiPalabraOculta = "Raqueta";
-	MiPalabraDescubierta = "_ _ _ _ _ _ _"; // todo crear un metodo que modifique este string
-	// todo implementar un metodo que inicialice con guiones bajos
-	// y vaya replazandolos por las letras que se van adivinando
+	MiIntentosMaximos = INTENTOS_MAXIMOS;
+	MiPalabraOculta = PALABRA_OCULTA;
+	MiPalabraDescubierta = InicializarPalabraDescubierta(LONGITUD_PALABRA_OCULTA);
+
+	return;
 }
 
 bool FJuegoAhorcado::EstaJuegoGanado()
@@ -25,5 +29,18 @@ bool FJuegoAhorcado::EstaJuegoGanado()
 bool FJuegoAhorcado::CheckearValidacionCadena(std::string)
 {
 	return false;
+}
+
+std::string FJuegoAhorcado::InicializarPalabraDescubierta(int LongitudPalabra)
+{
+	std::string PalabraPorDescubrir = "";
+
+	for (int i = 1; i < LongitudPalabra; i++)
+	{
+		PalabraPorDescubrir.append("_ ");
+	}
+	PalabraPorDescubrir.append("_");
+
+	return PalabraPorDescubrir;
 }
 

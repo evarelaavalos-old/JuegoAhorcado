@@ -20,4 +20,6 @@ private:
 	int MiIntentosMaximos;
 	std::string MiPalabraOculta;
 	std::string MiPalabraDescubierta;
+
+	std::string InicializarPalabraDescubierta(int);
 };
