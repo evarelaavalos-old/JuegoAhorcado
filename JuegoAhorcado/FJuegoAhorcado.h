@@ -1,25 +1,28 @@
 #pragma once
 #include <string>
 
+using FString = std::string;
+using int32 = int;
+
 class FJuegoAhorcado {
 public:
 	FJuegoAhorcado(); //constructor
 
-	int ObtenerIntentoActual() const;
-	int ObtenerIntentosMaximos() const;
-	int LongitudPalabraOculta() const;
-	std::string ObtenerPalabraDescubierta() const;
+	int32 ObtenerIntentoActual() const;
+	int32 ObtenerIntentosMaximos() const;
+	int32 LongitudPalabraOculta() const;
+	FString ObtenerPalabraDescubierta() const;
 	
-	void Reiniciar(); // todo enriquecer el tipo de retorno
+	void Reiniciar(); // TODO enriquecer el tipo de retorno
 	bool EstaJuegoGanado();
-	bool CheckearValidacionCadena(std::string); // todo enriquecer el tipo de retorno
+	bool CheckearValidacionCadena(FString); // TODO enriquecer el tipo de retorno
 
 
 private:
-	int MiIntentoActual;
-	int MiIntentosMaximos;
-	std::string MiPalabraOculta;
-	std::string MiPalabraDescubierta;
+	int32 MiIntentoActual;
+	int32 MiIntentosMaximos;
+	FString MiPalabraOculta;
+	FString MiPalabraDescubierta;
 
-	std::string InicializarPalabraDescubierta(int);
+	FString InicializarPalabraDescubierta(int32);
 };

@@ -2,16 +2,16 @@
 
 FJuegoAhorcado::FJuegoAhorcado() { Reiniciar(); }
 
-int FJuegoAhorcado::ObtenerIntentoActual() const { return MiIntentoActual; }
-int FJuegoAhorcado::ObtenerIntentosMaximos() const { return MiIntentosMaximos; }
-int FJuegoAhorcado::LongitudPalabraOculta() const { return MiPalabraOculta.length(); }
-std::string FJuegoAhorcado::ObtenerPalabraDescubierta() const { return MiPalabraDescubierta; }
+int32 FJuegoAhorcado::ObtenerIntentoActual() const { return MiIntentoActual; }
+int32 FJuegoAhorcado::ObtenerIntentosMaximos() const { return MiIntentosMaximos; }
+int32 FJuegoAhorcado::LongitudPalabraOculta() const { return MiPalabraOculta.length(); }
+FString FJuegoAhorcado::ObtenerPalabraDescubierta() const { return MiPalabraDescubierta; }
 
 void FJuegoAhorcado::Reiniciar()
 {
-	constexpr int INTENTOS_MAXIMOS = 5;
-	const std::string PALABRA_OCULTA = "Raqueta";
-	const int LONGITUD_PALABRA_OCULTA = PALABRA_OCULTA.length();
+	constexpr int32 INTENTOS_MAXIMOS = 5;
+	const FString PALABRA_OCULTA = "Raqueta";
+	const int32 LONGITUD_PALABRA_OCULTA = PALABRA_OCULTA.length();
 
 	MiIntentoActual = 1;
 	MiIntentosMaximos = INTENTOS_MAXIMOS;
@@ -26,16 +26,16 @@ bool FJuegoAhorcado::EstaJuegoGanado()
 	return false;
 }
 
-bool FJuegoAhorcado::CheckearValidacionCadena(std::string)
+bool FJuegoAhorcado::CheckearValidacionCadena(FString)
 {
 	return false;
 }
 
-std::string FJuegoAhorcado::InicializarPalabraDescubierta(int LongitudPalabra)
+FString FJuegoAhorcado::InicializarPalabraDescubierta(int32 LongitudPalabra)
 {
-	std::string PalabraPorDescubrir = "";
+	FString PalabraPorDescubrir = "";
 
-	for (int i = 1; i < LongitudPalabra; i++)
+	for (int32 i = 1; i < LongitudPalabra; i++)
 	{
 		PalabraPorDescubrir.append("_ ");
 	}
