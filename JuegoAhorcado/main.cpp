@@ -4,15 +4,16 @@ para más adelante */
 
 #include <iostream>
 #include <string>
-
-int main();
+#include "FJuegoAhorcado.h"
 
 void MostrarIntro();
 void JugarAhorcado();
 std::string ObtenerLetra();
 bool PreguntarPorJugarOtraVez();
 
-constexpr int NUMERO_INTENTOS = 5;
+FJuegoAhorcado FJAhorcado;
+// todo ver si se puede hacer exprconst
+int INTENTOS_MAXIMOS = FJAhorcado.ObtenerIntentosMaximos();
 
 // el punto de entrada para nuestra aplicacion
 int main()
@@ -32,35 +33,34 @@ int main()
 // introduciendo el juego
 void MostrarIntro()
 {
-	constexpr int LONGITUD_PALABRA = 7;
+	int LongitudPalabra = FJAhorcado.LongitudPalabraOculta();
 
 	std::cout << "Bienvenido al juego del Ahorcado! ";
 	std::cout << "Un divertido juego de palabras!\n";
-	std::cout << "Podras adivinar esta palabra de " << LONGITUD_PALABRA;
-	std::cout << " letras antes de agotar los " << NUMERO_INTENTOS;
+	std::cout << "Podras adivinar esta palabra de " << LongitudPalabra;
+	std::cout << " letras antes de agotar los " << INTENTOS_MAXIMOS;
 	std::cout << " intentos?\n";
 	std::cout << std::endl;
 }
 
 void JugarAhorcado()
 {
-	// palabra a adivinar
-	const std::string PalabraOculta = "Raqueta";
+	FJAhorcado.Reiniciar();
 
-	// obtener una letra valida por cada uno de los turnos
-	for (int IntentoActual = 1; IntentoActual <= NUMERO_INTENTOS; IntentoActual++)
+	// obtener una letra valida por cada uno de los intentos
+	// todo cambiar el for por un while
+	// while el intento actual sea menor del maximo de intentos
+	// dejar que sea la clase de FJuegoAhorcado la que administre los intentos
+	for (int IntentoActual = 1; IntentoActual <= INTENTOS_MAXIMOS; IntentoActual++)
 	{
-		// todo mostrar el numero de intento y las letras que vaya descubriendo
-		std::cout << "Intento #" << IntentoActual << ". ";
-
-		// placeholder
-		// todo implementar un metodo que inicialice con guiones bajos
-		// y vaya replazandolos por las letras que se van adivinando
-		std::cout << "_______\n";
+		std::string PalabraDescubierta = FJAhorcado.ObtenerPalabraDescubierta();
+		
+		std::cout << "Intento #" << IntentoActual << std::endl;
+		std::cout << "Palabra descubierta: " << PalabraDescubierta << std::endl;
 
 		// todo cambiar el tipo de datos de string a char
-		std::string LetraSupuesta = "";
-		LetraSupuesta = ObtenerLetra();
+		std::string LetraPorDescubrir = "";
+		LetraPorDescubrir = ObtenerLetra();
 
 		std::cout << std::endl;
 	}
@@ -70,11 +70,14 @@ void JugarAhorcado()
 // todo cambiar el tipo de datos de string a char
 std::string ObtenerLetra()
 {
-	std::string LetraSupuesta;
-	std::cout << "Ingrese una letra: ";
-	getline(std::cin, LetraSupuesta);
+	int IntentoActual = FJAhorcado.ObtenerIntentoActual();
 
-	return LetraSupuesta;
+	std::string LetraPorDescubrir;
+	//std::cout << "Intento # " << IntentoActual << ". Ingrese una letra: ";
+	std::cout << "Ingrese una letra: ";
+	getline(std::cin, LetraPorDescubrir);
+
+	return LetraPorDescubrir;
 }
 
 bool PreguntarPorJugarOtraVez()
