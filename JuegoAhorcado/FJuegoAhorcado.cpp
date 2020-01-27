@@ -42,7 +42,7 @@ ContadorLetras FJuegoAhorcado::IngresarLetra(TCHAR LetraIngresada)
 
 	for(int PosLetra = 0; PosLetra < LONGITUD_PALABRA; PosLetra++) {
 		// si la letra ingresada es igual a la letra de la palabra oculta en esa posicion
-		if(LetraIngresada == MiPalabraOculta[PosLetra]){
+		if (LetraIngresada == MiPalabraOculta[PosLetra]) {
 			// las letras de la palabra descubierta se muestran separadas por
 			// espacios (osea cada dos letras) por meros fines esteticos
 			MiPalabraDescubierta[PosLetra * 2] = LetraIngresada;

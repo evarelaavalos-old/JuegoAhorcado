@@ -58,40 +58,33 @@ void JugarAhorcado()
 	// dejar que sea la clase de FJuegoAhorcado la que administre los intentos
 	for (int32 IntentoActual = 1; IntentoActual <= IntentosMaximos; IntentoActual++)
 	{
-		FText PalabraDescubierta = FJAhorcado.ObtenerPalabraDescubierta();
-		ContadorLetras CLetras;
+		TCHAR LetraPorDescubrir = ObtenerLetra();
 
-		std::cout << "Intento #" << IntentoActual << std::endl;
-		std::cout << "Palabra descubierta: " << PalabraDescubierta << std::endl;
+		ContadorLetras CLetras = FJAhorcado.IngresarLetra(LetraPorDescubrir);
 
-		TCHAR LetraPorDescubrir = ' ';
-		LetraPorDescubrir = ObtenerLetra();
-
-		CLetras = FJAhorcado.IngresarLetra(LetraPorDescubrir);
-
-		if(CLetras.Descubiertas == 0) {
-			std::cout << "No has descubierto ninguna letra\n";
-		}
-		else {
-			std::cout << "Has descubierto " << CLetras.Descubiertas;
-			std::cout << " y te quedan " << CLetras.Restantes << " letras por descubrir\n";
-		}
+		std::cout << "Letras: DESCUBIERTAS = " << CLetras.Descubiertas;
+		std::cout << ", RESTANTES = " << CLetras.Restantes << std::endl;
 
 		std::cout << std::endl;
 	}
 }
 
 // obteniendo una letra del jugador
-// TODO cambiar el tipo de datos de string a TCHAR
 TCHAR ObtenerLetra()
 {
-	TCHAR LetraPorDescubrir;
-	std::cout << "Ingrese una letra: ";
-	std::cin >> LetraPorDescubrir;
-	std::cin.clear();
-	std::cin.ignore();
+	FText PalabraDescubierta = FJAhorcado.ObtenerPalabraDescubierta();
+	int32 IntentoActual = FJAhorcado.ObtenerIntentoActual();
 
-	return LetraPorDescubrir;
+	std::cout << "Intento " << IntentoActual << ". ";
+	std::cout << PalabraDescubierta << std::endl;
+	std::cout << "Ingrese una letra: ";
+
+	// TODO crear una implementacion que me permita preguntarle al usuario
+	// si esta de acuerdo con tomar la primera letra ingresada
+	FText TextoIngresado;
+	std::getline(std::cin, TextoIngresado);
+
+	return TextoIngresado[0];
 }
 
 bool PreguntarPorJugarOtraVez()
