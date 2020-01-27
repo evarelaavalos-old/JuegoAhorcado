@@ -1,6 +1,6 @@
 /* La idea original era hacerlo en ingles, pero se me dificulto mucho
-el idioma. Solo me entorpecia el trabajo, así que quedará pendiente
-para más adelante */
+el idioma. Solo me entorpecia el trabajo, asï¿½ que quedarï¿½ pendiente
+para mï¿½s adelante */
 
 #include <iostream>
 #include <string>
@@ -8,10 +8,11 @@ para más adelante */
 
 using FText = std::string;
 using int32 = int;
+using TCHAR = char;
 
 void MostrarIntro();
 void JugarAhorcado();
-FText ObtenerLetra();
+TCHAR ObtenerLetra();
 bool PreguntarPorJugarOtraVez();
 
 FJuegoAhorcado FJAhorcado;
@@ -34,13 +35,13 @@ int main()
 // introduciendo el juego
 void MostrarIntro()
 {
-	int32 LongitudPalabraOculta = FJAhorcado.LongitudPalabraOculta();
-	int32 IntentosMaximos = FJAhorcado.ObtenerIntentosMaximos();
+	int32 LONGITUD_PALABRA_OCULTA = FJAhorcado.LongitudPalabraOculta();
+	int32 INTENTOS_MAXIMOS = FJAhorcado.ObtenerIntentosMaximos();
 
 	std::cout << "Bienvenido al juego del Ahorcado! ";
 	std::cout << "Un divertido juego de palabras!\n";
-	std::cout << "Podras adivinar esta palabra de " << LongitudPalabraOculta;
-	std::cout << " letras antes de agotar los " << IntentosMaximos;
+	std::cout << "Podras adivinar esta palabra de " << LONGITUD_PALABRA_OCULTA;
+	std::cout << " letras antes de agotar los " << INTENTOS_MAXIMOS;
 	std::cout << " intentos?\n";
 	std::cout << std::endl;
 }
@@ -58,27 +59,37 @@ void JugarAhorcado()
 	for (int32 IntentoActual = 1; IntentoActual <= IntentosMaximos; IntentoActual++)
 	{
 		FText PalabraDescubierta = FJAhorcado.ObtenerPalabraDescubierta();
-		
+		ContadorLetras CLetras;
+
 		std::cout << "Intento #" << IntentoActual << std::endl;
 		std::cout << "Palabra descubierta: " << PalabraDescubierta << std::endl;
 
-		// todo cambiar el tipo de datos de string a char
-		FText LetraPorDescubrir = "";
+		TCHAR LetraPorDescubrir = ' ';
 		LetraPorDescubrir = ObtenerLetra();
+
+		CLetras = FJAhorcado.IngresarLetra(LetraPorDescubrir);
+
+		if(CLetras.Descubiertas == 0) {
+			std::cout << "No has descubierto ninguna letra\n";
+		}
+		else {
+			std::cout << "Has descubierto " << CLetras.Descubiertas;
+			std::cout << " y te quedan " << CLetras.Restantes << " letras por descubrir\n";
+		}
 
 		std::cout << std::endl;
 	}
 }
 
 // obteniendo una letra del jugador
-// TODO cambiar el tipo de datos de string a char
-FText ObtenerLetra()
+// TODO cambiar el tipo de datos de string a TCHAR
+TCHAR ObtenerLetra()
 {
-	int32 IntentoActual = FJAhorcado.ObtenerIntentoActual();
-
-	FText LetraPorDescubrir;
+	TCHAR LetraPorDescubrir;
 	std::cout << "Ingrese una letra: ";
-	getline(std::cin, LetraPorDescubrir);
+	std::cin >> LetraPorDescubrir;
+	std::cin.clear();
+	std::cin.ignore();
 
 	return LetraPorDescubrir;
 }

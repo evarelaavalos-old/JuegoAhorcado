@@ -3,6 +3,13 @@
 
 using FString = std::string;
 using int32 = int;
+using TCHAR = char;
+
+struct ContadorLetras
+{
+	int32 Descubiertas = 0;
+	int32 Restantes = 0;
+};
 
 class FJuegoAhorcado {
 public:
@@ -15,14 +22,18 @@ public:
 	
 	void Reiniciar(); // TODO enriquecer el tipo de retorno
 	bool EstaJuegoGanado();
-	bool CheckearValidacionCadena(FString); // TODO enriquecer el tipo de retorno
+	bool CheckearValidacionCaracter(TCHAR); // TODO enriquecer el tipo de retorno
+	ContadorLetras IngresarLetra(TCHAR);
 
 
 private:
 	int32 MiIntentoActual;
 	int32 MiIntentosMaximos;
+	int32 MiLetrasRestantes;
 	FString MiPalabraOculta;
 	FString MiPalabraDescubierta;
+	// TODO crear una lista de letras ya ingresadas previamente por el usuario
+	// bool fin del juego?
 
 	FString InicializarPalabraDescubierta(int32);
 };

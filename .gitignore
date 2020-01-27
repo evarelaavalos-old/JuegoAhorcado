@@ -2,3 +2,4 @@ JuegoAhorcado/Debug/**
 Debug/**
 .vs/**
 .gitignore
+JuegoAhorcado/.vscode/**
