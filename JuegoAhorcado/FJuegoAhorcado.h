@@ -11,6 +11,15 @@ struct ContadorLetras
 	int32 Restantes = 0;
 };
 
+enum class EEstadoLetra
+{
+	Estado_Invalido, // default
+	OK,
+	No_Letra,
+	No_Minuscula,
+	Ingresado_Previamente
+};
+
 class FJuegoAhorcado {
 public:
 	FJuegoAhorcado(); //constructor
@@ -22,7 +31,7 @@ public:
 	
 	void Reiniciar(); // TODO enriquecer el tipo de retorno
 	bool EstaJuegoGanado();
-	bool CheckearValidacionCaracter(TCHAR); // TODO enriquecer el tipo de retorno
+	EEstadoLetra CheckearValidacionCaracter(TCHAR) const; // TODO enriquecer el tipo de retorno
 	ContadorLetras IngresarLetra(TCHAR);
 
 
@@ -35,5 +44,5 @@ private:
 	// TODO crear una lista de letras ya ingresadas previamente por el usuario
 	// bool fin del juego?
 
-	FString InicializarPalabraDescubierta(int32);
+	FString InicializarPalabraDescubierta(int32) const;
 };

@@ -12,7 +12,7 @@ using TCHAR = char;
 
 void MostrarIntro();
 void JugarAhorcado();
-TCHAR ObtenerLetra();
+TCHAR ObtenerLetraValida();
 bool PreguntarPorJugarOtraVez();
 
 FJuegoAhorcado FJAhorcado;
@@ -58,33 +58,50 @@ void JugarAhorcado()
 	// dejar que sea la clase de FJuegoAhorcado la que administre los intentos
 	for (int32 IntentoActual = 1; IntentoActual <= IntentosMaximos; IntentoActual++)
 	{
-		TCHAR LetraPorDescubrir = ObtenerLetra();
+		TCHAR LetraPorDescubrir = ObtenerLetraValida(); // TODO cambiar el nombre de esta variable
+
 
 		ContadorLetras CLetras = FJAhorcado.IngresarLetra(LetraPorDescubrir);
 
 		std::cout << "Letras: DESCUBIERTAS = " << CLetras.Descubiertas;
-		std::cout << ", RESTANTES = " << CLetras.Restantes << std::endl;
-
-		std::cout << std::endl;
+		std::cout << ", RESTANTES = " << CLetras.Restantes << "\n\n";
 	}
 }
 
 // obteniendo una letra del jugador
-TCHAR ObtenerLetra()
+TCHAR ObtenerLetraValida()
 {
-	FText PalabraDescubierta = FJAhorcado.ObtenerPalabraDescubierta();
-	int32 IntentoActual = FJAhorcado.ObtenerIntentoActual();
+	EEstadoLetra Estado = EEstadoLetra::Estado_Invalido;
+	do {
+		FText PalabraDescubierta = FJAhorcado.ObtenerPalabraDescubierta();
+		int32 IntentoActual = FJAhorcado.ObtenerIntentoActual();
 
-	std::cout << "Intento " << IntentoActual << ". ";
-	std::cout << PalabraDescubierta << std::endl;
-	std::cout << "Ingrese una letra: ";
+		std::cout << "Intento " << IntentoActual << ". ";
+		std::cout << PalabraDescubierta << std::endl;
+		std::cout << "Ingrese una letra: ";
 
-	// TODO crear una implementacion que me permita preguntarle al usuario
-	// si esta de acuerdo con tomar la primera letra ingresada
-	FText TextoIngresado;
-	std::getline(std::cin, TextoIngresado);
+		// TODO crear una implementacion que me permita preguntarle al usuario
+		// si esta de acuerdo con tomar la primera letra ingresada
+		FText TextoIngresado;
+		std::getline(std::cin, TextoIngresado);
 
-	return TextoIngresado[0];
+		Estado = FJAhorcado.CheckearValidacionCaracter(TextoIngresado[0]);
+
+		switch(Estado) {
+			case EEstadoLetra::No_Letra:
+				std::cout << "Por favor ingrese una letra minuscula.\n";
+				break;
+			case EEstadoLetra::No_Minuscula:
+				std::cout << "La letra ingresada debe ser minuscula.\n";
+				break;
+			case EEstadoLetra::Ingresado_Previamente:
+				std::cout << "Ya ha ingresado esta letra previamente.\n";
+				break;
+			default:
+				return TextoIngresado[0];
+		}
+		std::cout << std::endl;
+	} while(Estado != EEstadoLetra::OK);
 }
 
 bool PreguntarPorJugarOtraVez()

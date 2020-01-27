@@ -27,11 +27,24 @@ bool FJuegoAhorcado::EstaJuegoGanado()
 	return false;
 }
 
-bool FJuegoAhorcado::CheckearValidacionCaracter(TCHAR)
+EEstadoLetra FJuegoAhorcado::CheckearValidacionCaracter(TCHAR CarIngresado) const
 {
-	// es una letra minuscula o mayuscula, no un caracter especial ni un numero
-	// no fue ingresado previamente por el usuario
-	return false;
+	if (CarIngresado >= 'A' && CarIngresado <= 'Z')
+	{
+		return EEstadoLetra::No_Minuscula;
+	}
+	else if (!(CarIngresado >= 'a' && CarIngresado <= 'z'))
+	{
+		return EEstadoLetra::No_Letra;
+	}
+	else if (false) // TODO revisar en una lista de letras
+	{
+		return EEstadoLetra::Ingresado_Previamente;
+	}
+	else
+	{
+		return EEstadoLetra::OK;
+	}
 }
 
 ContadorLetras FJuegoAhorcado::IngresarLetra(TCHAR LetraIngresada)
@@ -58,7 +71,7 @@ ContadorLetras FJuegoAhorcado::IngresarLetra(TCHAR LetraIngresada)
 	return CLetras;
 }
 
-FString FJuegoAhorcado::InicializarPalabraDescubierta(int32 LongitudPalabra)
+FString FJuegoAhorcado::InicializarPalabraDescubierta(int32 LongitudPalabra) const
 {
 	FString PalabraPorDescubrir = "";
 
