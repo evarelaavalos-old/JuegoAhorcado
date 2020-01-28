@@ -14,6 +14,7 @@ void MostrarIntro();
 void JugarAhorcado();
 TCHAR ObtenerLetraValida();
 bool PreguntarPorJugarOtraVez();
+FText ObtenerPalabraEspaciada();
 
 FJuegoAhorcado FJAhorcado;
 
@@ -35,7 +36,7 @@ int main()
 // introduciendo el juego
 void MostrarIntro()
 {
-	int32 LONGITUD_PALABRA_OCULTA = FJAhorcado.LongitudPalabraOculta();
+	int32 LONGITUD_PALABRA_OCULTA = FJAhorcado.ObtenerLongitudPalabra();
 	int32 INTENTOS_MAXIMOS = FJAhorcado.ObtenerIntentosMaximos();
 
 	std::cout << "Bienvenido al juego del Ahorcado! ";
@@ -52,19 +53,22 @@ void JugarAhorcado()
 
 	int32 IntentosMaximos = FJAhorcado.ObtenerIntentosMaximos();
 
-	// obtener una letra valida por cada uno de los intentos
-	// TODO cambiar el FOR por un WHILE
-	// mientras el intento actual sea menor del maximo de intentos
-	// dejar que sea la clase de FJuegoAhorcado la que administre los intentos
-	for (int32 IntentoActual = 1; IntentoActual <= IntentosMaximos; IntentoActual++)
+	// obtener una letra valida mientras el juego NO se este ganado
+	// y todavia queden intentos restantes 
+	while (!FJAhorcado.EstaJuegoGanado() && 
+		FJAhorcado.ObtenerIntentoActual() <= IntentosMaximos)
 	{
-		TCHAR LetraPorDescubrir = ObtenerLetraValida(); // TODO cambiar el nombre de esta variable
+		TCHAR Estimacion = ObtenerLetraValida();
 
+		ContadorLetras ContLetras = FJAhorcado.IngresarLetraValida(Estimacion);
 
-		ContadorLetras CLetras = FJAhorcado.IngresarLetra(LetraPorDescubrir);
+		std::cout << "Letras: DESCUBIERTAS = " << ContLetras.Descubiertas;
+		std::cout << ", RESTANTES = " << ContLetras.Restantes << "\n\n";
+	}
 
-		std::cout << "Letras: DESCUBIERTAS = " << CLetras.Descubiertas;
-		std::cout << ", RESTANTES = " << CLetras.Restantes << "\n\n";
+	if (FJAhorcado.ObtenerIntentoActual() < IntentosMaximos) {
+		std::cout << "La palabra oculta era:" << FJAhorcado.ObtenerPalabra;
+		std::cout << "y le tomo " << FJAhorcado.ObtenerIntentoActual << " intentos\n";
 	}
 }
 
@@ -73,19 +77,23 @@ TCHAR ObtenerLetraValida()
 {
 	EEstadoLetra Estado = EEstadoLetra::Estado_Invalido;
 	do {
-		FText PalabraDescubierta = FJAhorcado.ObtenerPalabraDescubierta();
+		FText Incognita = ObtenerPalabraEspaciada();
 		int32 IntentoActual = FJAhorcado.ObtenerIntentoActual();
 
 		std::cout << "Intento " << IntentoActual << ". ";
-		std::cout << PalabraDescubierta << std::endl;
+		std::cout << Incognita << std::endl;
 		std::cout << "Ingrese una letra: ";
+
+		// se toma el primer caracter de la cadena ingresada por el usuario
+		FText CadenaEntrada;
+		std::getline(std::cin, CadenaEntrada);
+		TCHAR PrimerCaracEntrada = CadenaEntrada[0];
 
 		// TODO crear una implementacion que me permita preguntarle al usuario
 		// si esta de acuerdo con tomar la primera letra ingresada
-		FText TextoIngresado;
-		std::getline(std::cin, TextoIngresado);
 
-		Estado = FJAhorcado.CheckearValidacionCaracter(TextoIngresado[0]);
+		// se verifica si el caracter ingresado es valido
+		Estado = FJAhorcado.CheckearValidacionCaracter(PrimerCaracEntrada);
 
 		switch(Estado) {
 			case EEstadoLetra::No_Letra:
@@ -98,10 +106,11 @@ TCHAR ObtenerLetraValida()
 				std::cout << "Ya ha ingresado esta letra previamente.\n";
 				break;
 			default:
-				return TextoIngresado[0];
+				return CadenaEntrada[0];
 		}
+		
 		std::cout << std::endl;
-	} while(Estado != EEstadoLetra::OK);
+	} while (Estado != EEstadoLetra::OK);
 }
 
 bool PreguntarPorJugarOtraVez()
@@ -112,4 +121,19 @@ bool PreguntarPorJugarOtraVez()
 	getline(std::cin, Respuesta);
 
 	return Respuesta[0] == 's' || Respuesta[0] == 'S';
+}
+
+FText ObtenerPalabraEspaciada()
+{
+	FText PalabraOculta = FJAhorcado.ObtenerPalabra();
+	int32 LongitudPalabra = FJAhorcado.ObtenerLongitudPalabra();
+
+	FText PalabraEspaciada = "";
+	for (int32 CaracPO = 0; CaracPO < LongitudPalabra - 1; CaracPO++) {
+		PalabraEspaciada.push_back(PalabraOculta[CaracPO]);
+		PalabraEspaciada.push_back(' ');
+	}
+	PalabraEspaciada.push_back(PalabraOculta[LongitudPalabra - 1]);
+
+	return PalabraEspaciada;
 }

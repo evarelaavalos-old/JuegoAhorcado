@@ -4,8 +4,8 @@ FJuegoAhorcado::FJuegoAhorcado() { Reiniciar(); } // constructor
 
 int32 FJuegoAhorcado::ObtenerIntentoActual() const { return MiIntentoActual; }
 int32 FJuegoAhorcado::ObtenerIntentosMaximos() const { return MiIntentosMaximos; }
-int32 FJuegoAhorcado::LongitudPalabraOculta() const { return MiPalabraOculta.length(); }
-FString FJuegoAhorcado::ObtenerPalabraDescubierta() const { return MiPalabraDescubierta; }
+int32 FJuegoAhorcado::ObtenerLongitudPalabra() const { return MiPalabraOculta.length(); }
+FString FJuegoAhorcado::ObtenerPalabra() const { return MiPalabraConFormato; }
 
 void FJuegoAhorcado::Reiniciar()
 {
@@ -17,27 +17,34 @@ void FJuegoAhorcado::Reiniciar()
 	MiIntentosMaximos = INTENTOS_MAXIMOS;
 	MiLetrasRestantes = LONGITUD_PALABRA_OCULTA;
 	MiPalabraOculta = PALABRA_OCULTA;
-	MiPalabraDescubierta = InicializarPalabraDescubierta(LONGITUD_PALABRA_OCULTA);
-
+	MiPalabraConFormato = InicializarPalabraConFormato(LONGITUD_PALABRA_OCULTA);
+	
 	return;
 }
 
 bool FJuegoAhorcado::EstaJuegoGanado()
 {
-	return false;
+	int LONGITUD_PALABRA = ObtenerLongitudPalabra();
+
+	for (int POCarac = 0; POCarac < LONGITUD_PALABRA; POCarac++) {
+		if (MiPalabraConFormato[POCarac] == '_')
+			return false;
+	}
+
+	return true;
 }
 
-EEstadoLetra FJuegoAhorcado::CheckearValidacionCaracter(TCHAR CarIngresado) const
+EEstadoLetra FJuegoAhorcado::CheckearValidacionCaracter(TCHAR CaracIngresado) const
 {
-	if (CarIngresado >= 'A' && CarIngresado <= 'Z')
+	if (CaracIngresado >= 'A' && CaracIngresado <= 'Z')
 	{
 		return EEstadoLetra::No_Minuscula;
 	}
-	else if (!(CarIngresado >= 'a' && CarIngresado <= 'z'))
+	else if (!(CaracIngresado >= 'a' && CaracIngresado <= 'z'))
 	{
 		return EEstadoLetra::No_Letra;
 	}
-	else if (false) // TODO revisar en una lista de letras
+	else if (false) // TODO revisar en una lista de letras ingresadas
 	{
 		return EEstadoLetra::Ingresado_Previamente;
 	}
@@ -47,39 +54,36 @@ EEstadoLetra FJuegoAhorcado::CheckearValidacionCaracter(TCHAR CarIngresado) cons
 	}
 }
 
-ContadorLetras FJuegoAhorcado::IngresarLetra(TCHAR LetraIngresada)
+// TODO cambiar el valor de retorno solamente a letras descubiertas
+// y hacer de letras restantes una variable global de la clase
+ContadorLetras FJuegoAhorcado::IngresarLetraValida(TCHAR LetraIngresada)
 {
-	// asumiendo que el caracter ingresado es una letra valida
-	ContadorLetras CLetras;
-	int32 LONGITUD_PALABRA = LongitudPalabraOculta();
-
-	for(int PosLetra = 0; PosLetra < LONGITUD_PALABRA; PosLetra++) {
-		// si la letra ingresada es igual a la letra de la palabra oculta en esa posicion
-		if (LetraIngresada == MiPalabraOculta[PosLetra]) {
-			// las letras de la palabra descubierta se muestran separadas por
-			// espacios (osea cada dos letras) por meros fines esteticos
-			MiPalabraDescubierta[PosLetra * 2] = LetraIngresada;
-			CLetras.Descubiertas++;
-			MiLetrasRestantes--;
-		}
-	}
-
-	CLetras.Restantes = MiLetrasRestantes;
 	MiIntentoActual++;
 	// TODO agregar la letra ingresada a una lista de letras utilizadas
 
-	return CLetras;
-}
+	ContadorLetras ContLetras;
+	ContLetras.Restantes = MiLetrasRestantes;
 
-FString FJuegoAhorcado::InicializarPalabraDescubierta(int32 LongitudPalabra) const
-{
-	FString PalabraPorDescubrir = "";
-
-	for (int32 i = 1; i < LongitudPalabra; i++) {
-		PalabraPorDescubrir.append("_ ");
+	int32 LONGITUD_PALABRA = ObtenerLongitudPalabra();
+	// comparar la letra ingresada con cada caracter de la palabra oculta
+	for (int POCarac = 0; POCarac < LONGITUD_PALABRA; POCarac++) {
+		// si la letra coincide con algun caracter de la palabra oculta
+		if (MiPalabraOculta[POCarac] == LetraIngresada) {
+			// desvelar la letra en la palabra que se muestra al usuario
+			MiPalabraConFormato[POCarac] = LetraIngresada;
+			ContLetras.Descubiertas++;
+			ContLetras.Restantes--;
+		}
 	}
-	PalabraPorDescubrir.append("_");
 
-	return PalabraPorDescubrir;
+	MiLetrasRestantes = ContLetras.Restantes;
+	return ContLetras;
 }
 
+FString FJuegoAhorcado::InicializarPalabraConFormato(int32 LongitudPalabra) const
+{
+	FString Palabra = "";
+	for (int32 i = 0; i < LongitudPalabra; i++) { Palabra.push_back('_'); }
+
+	return Palabra;
+}

@@ -26,23 +26,23 @@ public:
 
 	int32 ObtenerIntentoActual() const;
 	int32 ObtenerIntentosMaximos() const;
-	int32 LongitudPalabraOculta() const;
-	FString ObtenerPalabraDescubierta() const;
+	int32 ObtenerLongitudPalabra() const;
+	FString ObtenerPalabra() const;
 	
 	void Reiniciar(); // TODO enriquecer el tipo de retorno
 	bool EstaJuegoGanado();
-	EEstadoLetra CheckearValidacionCaracter(TCHAR) const; // TODO enriquecer el tipo de retorno
-	ContadorLetras IngresarLetra(TCHAR);
+	EEstadoLetra CheckearValidacionCaracter(TCHAR) const;
+	ContadorLetras IngresarLetraValida(TCHAR);
 
 
 private:
 	int32 MiIntentoActual;
 	int32 MiIntentosMaximos;
 	int32 MiLetrasRestantes;
-	FString MiPalabraOculta;
-	FString MiPalabraDescubierta;
+	FString MiPalabraOculta; // palabra a adivinar
+	FString MiPalabraConFormato; // palabra reemplazada por _
 	// TODO crear una lista de letras ya ingresadas previamente por el usuario
 	// bool fin del juego?
 
-	FString InicializarPalabraDescubierta(int32) const;
+	FString InicializarPalabraConFormato(int32) const;
 };
