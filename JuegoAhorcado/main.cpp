@@ -2,6 +2,9 @@
 el idioma. Solo me entorpecia el trabajo, as� que quedar� pendiente
 para m�s adelante */
 
+// TODO los intentos solo deberían incrementar cuando el jugador
+// se equivoca de letra. Esa es la verdadera dinamica del juego
+
 #include <iostream>
 #include <string>
 #include "FJuegoAhorcado.h"
@@ -12,6 +15,7 @@ using TCHAR = char;
 
 void MostrarIntro();
 void JugarAhorcado();
+void MostrarResumenJuego();
 TCHAR ObtenerLetraValida();
 bool PreguntarPorJugarOtraVez();
 FText ObtenerPalabraEspaciada();
@@ -26,6 +30,7 @@ int main()
 	do {
 		MostrarIntro();
 		JugarAhorcado();
+		MostrarResumenJuego();
 		bJugarOtraVez = PreguntarPorJugarOtraVez();
 	}
 	while (bJugarOtraVez);
@@ -55,7 +60,7 @@ void JugarAhorcado()
 
 	// obtener una letra valida mientras el juego NO se este ganado
 	// y todavia queden intentos restantes 
-	while (!FJAhorcado.EstaJuegoGanado() && 
+	while (!FJAhorcado.JuegoEstaGanado() && 
 		FJAhorcado.ObtenerIntentoActual() <= IntentosMaximos)
 	{
 		TCHAR Estimacion = ObtenerLetraValida();
@@ -64,11 +69,6 @@ void JugarAhorcado()
 
 		std::cout << "Letras: DESCUBIERTAS = " << ContLetras.Descubiertas;
 		std::cout << ", RESTANTES = " << ContLetras.Restantes << "\n\n";
-	}
-
-	if (FJAhorcado.ObtenerIntentoActual() < IntentosMaximos) {
-		std::cout << "La palabra oculta era:" << FJAhorcado.ObtenerPalabra;
-		std::cout << "y le tomo " << FJAhorcado.ObtenerIntentoActual << " intentos\n";
 	}
 }
 
@@ -111,6 +111,18 @@ TCHAR ObtenerLetraValida()
 		
 		std::cout << std::endl;
 	} while (Estado != EEstadoLetra::OK);
+}
+
+void MostrarResumenJuego()
+{
+	if (FJAhorcado.JuegoEstaGanado()) {
+		std::cout << "FELICITACIONES! HA GANADO EL JUEGO\n";
+		std::cout << "LA PALABRA OCULTA ERA: " << FJAhorcado.ObtenerPalabra();
+		std::cout << ". Y LE TOMO " << FJAhorcado.ObtenerIntentoActual() << " INTENTOS\n\n";
+	}
+	else {
+		std::cout << "Lo siento, ha agotado todos sus turnos. Mejor suerte la proxima vez.\n\n";
+	}
 }
 
 bool PreguntarPorJugarOtraVez()

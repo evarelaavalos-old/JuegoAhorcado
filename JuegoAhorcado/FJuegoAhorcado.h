@@ -30,7 +30,7 @@ public:
 	FString ObtenerPalabra() const;
 	
 	void Reiniciar(); // TODO enriquecer el tipo de retorno
-	bool EstaJuegoGanado();
+	bool JuegoEstaGanado() const;
 	EEstadoLetra CheckearValidacionCaracter(TCHAR) const;
 	ContadorLetras IngresarLetraValida(TCHAR);
 
@@ -41,6 +41,7 @@ private:
 	int32 MiLetrasRestantes;
 	FString MiPalabraOculta; // palabra a adivinar
 	FString MiPalabraConFormato; // palabra reemplazada por _
+	bool bJuegoEstaGanado;
 	// TODO crear una lista de letras ya ingresadas previamente por el usuario
 	// bool fin del juego?
 

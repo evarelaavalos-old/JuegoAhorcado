@@ -6,11 +6,12 @@ int32 FJuegoAhorcado::ObtenerIntentoActual() const { return MiIntentoActual; }
 int32 FJuegoAhorcado::ObtenerIntentosMaximos() const { return MiIntentosMaximos; }
 int32 FJuegoAhorcado::ObtenerLongitudPalabra() const { return MiPalabraOculta.length(); }
 FString FJuegoAhorcado::ObtenerPalabra() const { return MiPalabraConFormato; }
+bool FJuegoAhorcado::JuegoEstaGanado() const { return bJuegoEstaGanado; }
 
 void FJuegoAhorcado::Reiniciar()
 {
 	constexpr int32 INTENTOS_MAXIMOS = 10;
-	const FString PALABRA_OCULTA = "raqueta";
+	const FString PALABRA_OCULTA = "rinoceronte";
 	const int32 LONGITUD_PALABRA_OCULTA = PALABRA_OCULTA.length();
 
 	MiIntentoActual = 1;
@@ -18,20 +19,9 @@ void FJuegoAhorcado::Reiniciar()
 	MiLetrasRestantes = LONGITUD_PALABRA_OCULTA;
 	MiPalabraOculta = PALABRA_OCULTA;
 	MiPalabraConFormato = InicializarPalabraConFormato(LONGITUD_PALABRA_OCULTA);
+	bJuegoEstaGanado = false;
 	
 	return;
-}
-
-bool FJuegoAhorcado::EstaJuegoGanado()
-{
-	int LONGITUD_PALABRA = ObtenerLongitudPalabra();
-
-	for (int POCarac = 0; POCarac < LONGITUD_PALABRA; POCarac++) {
-		if (MiPalabraConFormato[POCarac] == '_')
-			return false;
-	}
-
-	return true;
 }
 
 EEstadoLetra FJuegoAhorcado::CheckearValidacionCaracter(TCHAR CaracIngresado) const
@@ -74,6 +64,13 @@ ContadorLetras FJuegoAhorcado::IngresarLetraValida(TCHAR LetraIngresada)
 			ContLetras.Descubiertas++;
 			ContLetras.Restantes--;
 		}
+	}
+
+	if (ContLetras.Restantes == 0) {
+		bJuegoEstaGanado = true;
+	}
+	else {
+		bJuegoEstaGanado = false;
 	}
 
 	MiLetrasRestantes = ContLetras.Restantes;
