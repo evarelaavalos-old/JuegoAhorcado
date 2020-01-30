@@ -2,9 +2,6 @@
 el idioma. Solo me entorpecia el trabajo, as� que quedar� pendiente
 para m�s adelante */
 
-// TODO los intentos solo deberían incrementar cuando el jugador
-// se equivoca de letra. Esa es la verdadera dinamica del juego
-
 #include <iostream>
 #include <string>
 #include "FJuegoAhorcado.h"
@@ -82,6 +79,8 @@ TCHAR ObtenerLetraValida()
 
 		std::cout << "Intento " << IntentoActual << ". ";
 		std::cout << Incognita << std::endl;
+		std::cout << "Letras Utilizadas: ";
+		std::cout << FJAhorcado.ObtenerLetrasUtilizadas() << std::endl;
 		std::cout << "Ingrese una letra: ";
 
 		// se toma el primer caracter de la cadena ingresada por el usuario
@@ -121,7 +120,7 @@ void MostrarResumenJuego()
 		std::cout << ". Y LE TOMO " << FJAhorcado.ObtenerIntentoActual() << " INTENTOS\n\n";
 	}
 	else {
-		std::cout << "Lo siento, ha agotado todos sus turnos. Mejor suerte la proxima vez.\n\n";
+		std::cout << "Lo siento, ha agotado todos sus intentos. Mejor suerte la proxima vez.\n\n";
 	}
 }
 

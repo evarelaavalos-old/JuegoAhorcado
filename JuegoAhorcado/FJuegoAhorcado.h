@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <map>
+#define TMap std::map
 
 using FString = std::string;
 using int32 = int;
@@ -28,10 +30,11 @@ public:
 	int32 ObtenerIntentosMaximos() const;
 	int32 ObtenerLongitudPalabra() const;
 	FString ObtenerPalabra() const;
+	FString ObtenerLetrasUtilizadas();
 	
 	void Reiniciar(); // TODO enriquecer el tipo de retorno
 	bool JuegoEstaGanado() const;
-	EEstadoLetra CheckearValidacionCaracter(TCHAR) const;
+	EEstadoLetra CheckearValidacionCaracter(TCHAR);
 	ContadorLetras IngresarLetraValida(TCHAR);
 
 
@@ -41,9 +44,9 @@ private:
 	int32 MiLetrasRestantes;
 	FString MiPalabraOculta; // palabra a adivinar
 	FString MiPalabraConFormato; // palabra reemplazada por _
+	TMap<TCHAR,bool> LetrasUtilizadas;
 	bool bJuegoEstaGanado;
-	// TODO crear una lista de letras ya ingresadas previamente por el usuario
-	// bool fin del juego?
 
 	FString InicializarPalabraConFormato(int32) const;
+	bool HaSidoUtilizado(TCHAR);
 };
