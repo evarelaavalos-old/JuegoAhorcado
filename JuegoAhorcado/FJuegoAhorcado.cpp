@@ -9,6 +9,7 @@ int32 FJuegoAhorcado::ObtenerIntentoActual() const { return MiIntentoActual; }
 int32 FJuegoAhorcado::ObtenerIntentosMaximos() const { return MiIntentosMaximos; }
 int32 FJuegoAhorcado::ObtenerLongitudPalabra() const { return MiPalabraOculta.length(); }
 bool FJuegoAhorcado::JuegoEstaGanado() const { return bJuegoEstaGanado; }
+bool FJuegoAhorcado::HaSidoUtilizado(TCHAR Caracter) { return MiLetrasUtilizadas[Caracter]; }
 
 void FJuegoAhorcado::Reiniciar()
 {
@@ -84,8 +85,6 @@ ContadorLetras FJuegoAhorcado::IngresarLetraValida(TCHAR LetraIngresada)
 }
 
 //PRIVATE
-bool FJuegoAhorcado::HaSidoUtilizado(TCHAR Caracter) { return MiLetrasUtilizadas[Caracter]; }
-
 FString FJuegoAhorcado::InicializarPalabraConFormato(int32 LongitudPalabra) const
 {
 	// TODO Ver si puedo hacer una implementacion de una sola linea

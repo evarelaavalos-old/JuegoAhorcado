@@ -32,6 +32,7 @@ public:
 	int32 ObtenerIntentosMaximos() const;
 	int32 ObtenerLongitudPalabra() const;
 	bool JuegoEstaGanado() const;
+	bool HaSidoUtilizado(TCHAR);
 	
 	void Reiniciar(); // TODO enriquecer el tipo de retorno
 	EEstadoLetra CheckearValidacionCaracter(TCHAR);
@@ -49,5 +50,4 @@ private:
 
 	FString InicializarPalabraConFormato(int32) const;
 	void IngresarLetraUtilizada(TCHAR);
-	bool HaSidoUtilizado(TCHAR);
 };
