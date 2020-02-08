@@ -27,7 +27,7 @@ public:
 	FJuegoAhorcado(); //constructor
 
 	FString ObtenerPalabra() const;
-	FString ObtenerLetrasUtilizadas();
+	FString ObtenerLetrasUtilizadas() const;
 	int32 ObtenerIntentoActual() const;
 	int32 ObtenerIntentosMaximos() const;
 	int32 ObtenerLongitudPalabra() const;
@@ -41,7 +41,7 @@ private:
 	TMap<TCHAR,bool> MiLetrasUtilizadas;
 	FString MiPalabraOculta; // palabra a adivinar
 	FString MiPalabraConFormato; // palabra reemplazada por _
-	//TODO crear una nueva variable donde se guarde las letras ingresadas como string
+	FString MiLetrasUtilizadasComoCadena;
 	int32 MiIntentoActual;
 	int32 MiIntentosMaximos;
 	int32 MiLetrasRestantes;

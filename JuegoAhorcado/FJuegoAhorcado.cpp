@@ -4,8 +4,7 @@ FJuegoAhorcado::FJuegoAhorcado() { Reiniciar(); } // constructor
 
 //public
 FString FJuegoAhorcado::ObtenerPalabra() const { return MiPalabraConFormato; }
-//FString FJuegoAhorcado::ObtenerLetrasUtilizadas() const { return PalabrasUtilizadasComoCadena; }
-//TODO implementar la funcion
+FString FJuegoAhorcado::ObtenerLetrasUtilizadas() const { return MiLetrasUtilizadasComoCadena; }
 int32 FJuegoAhorcado::ObtenerIntentoActual() const { return MiIntentoActual; }
 int32 FJuegoAhorcado::ObtenerIntentosMaximos() const { return MiIntentosMaximos; }
 int32 FJuegoAhorcado::ObtenerLongitudPalabra() const { return MiPalabraOculta.length(); }
@@ -24,6 +23,7 @@ void FJuegoAhorcado::Reiniciar()
 	MiPalabraConFormato = InicializarPalabraConFormato(LONGITUD_PALABRA_OCULTA);
 	bJuegoEstaGanado = false;
 	MiLetrasUtilizadas.clear();
+	MiLetrasUtilizadasComoCadena = "";
 
 	return;
 }
@@ -59,11 +59,11 @@ ContadorLetras FJuegoAhorcado::IngresarLetraValida(TCHAR LetraIngresada)
 
 	int32 LONGITUD_PALABRA = ObtenerLongitudPalabra();
 	// comparar la letra ingresada con cada caracter de la palabra oculta
-	for (int32 POCarac = 0; POCarac < LONGITUD_PALABRA; POCarac++) {
+	for (int32 CaracPO = 0; CaracPO < LONGITUD_PALABRA; CaracPO++) {
 		// si la letra coincide con algun caracter de la palabra oculta
-		if (MiPalabraOculta[POCarac] == LetraIngresada) {
+		if (MiPalabraOculta[CaracPO] == LetraIngresada) {
 			// desvelar la letra en la palabra que se muestra al usuario
-			MiPalabraConFormato[POCarac] = LetraIngresada;
+			MiPalabraConFormato[CaracPO] = LetraIngresada;
 			ContLetras.Descubiertas++;
 			ContLetras.Restantes--;
 		}
@@ -83,33 +83,6 @@ ContadorLetras FJuegoAhorcado::IngresarLetraValida(TCHAR LetraIngresada)
 	return ContLetras;
 }
 
-FString FJuegoAhorcado::ObtenerLetrasUtilizadas()
-{
-	int32 CantidadLetras = MiLetrasUtilizadas.size();
-
-	if (CantidadLetras == 0) {
-		return "-";
-	}
-	else if (CantidadLetras == 1) {
-		FString Letra(1, MiLetrasUtilizadas.begin()->first);
-		return Letra;
-	}
-	else {
-		FString Letras = "";
-
-		TMap<TCHAR, bool>::iterator it = MiLetrasUtilizadas.begin();
-		TMap<TCHAR, bool>::iterator Ultimo = --MiLetrasUtilizadas.end();
-		for (; it != Ultimo; it++)
-		{
-			Letras.push_back(it->first);
-			Letras.append(", ");
-		}
-		Letras.push_back(Ultimo->first);
-		
-		return Letras;
-	}
-}
-
 //PRIVATE
 bool FJuegoAhorcado::HaSidoUtilizado(TCHAR Caracter) { return MiLetrasUtilizadas[Caracter]; }
 
@@ -126,10 +99,13 @@ void FJuegoAhorcado::IngresarLetraUtilizada(TCHAR Letra)
 {
 	MiLetrasUtilizadas[Letra] = true;
 
-
-	//TODO agregar las letras a un string de manera que se pueda presentar al usuario
-		//si la cadena esta vacia
-			//agregar la letra sin mas, por ej: "a"
-		//sino
-			//agregar ", b"
+	bool bSeHaIngresadoLetra = (MiLetrasUtilizadasComoCadena.size() > 0);
+	if (!bSeHaIngresadoLetra) {
+		//agregar la letra sin mas, por ej: "a"
+		MiLetrasUtilizadasComoCadena.push_back(Letra);
+	} else {
+		//agregar una coma y un espacio antes de la letra ", b"
+		MiLetrasUtilizadasComoCadena.append(", ");
+		MiLetrasUtilizadasComoCadena.push_back(Letra);
+	}
 }
