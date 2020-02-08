@@ -26,27 +26,28 @@ class FJuegoAhorcado {
 public:
 	FJuegoAhorcado(); //constructor
 
+	FString ObtenerPalabra() const;
+	FString ObtenerLetrasUtilizadas();
 	int32 ObtenerIntentoActual() const;
 	int32 ObtenerIntentosMaximos() const;
 	int32 ObtenerLongitudPalabra() const;
-	FString ObtenerPalabra() const;
-	FString ObtenerLetrasUtilizadas();
+	bool JuegoEstaGanado() const;
 	
 	void Reiniciar(); // TODO enriquecer el tipo de retorno
-	bool JuegoEstaGanado() const;
 	EEstadoLetra CheckearValidacionCaracter(TCHAR);
 	ContadorLetras IngresarLetraValida(TCHAR);
 
-
 private:
+	TMap<TCHAR,bool> MiLetrasUtilizadas;
+	FString MiPalabraOculta; // palabra a adivinar
+	FString MiPalabraConFormato; // palabra reemplazada por _
+	//TODO crear una nueva variable donde se guarde las letras ingresadas como string
 	int32 MiIntentoActual;
 	int32 MiIntentosMaximos;
 	int32 MiLetrasRestantes;
-	FString MiPalabraOculta; // palabra a adivinar
-	FString MiPalabraConFormato; // palabra reemplazada por _
-	TMap<TCHAR,bool> LetrasUtilizadas;
 	bool bJuegoEstaGanado;
 
 	FString InicializarPalabraConFormato(int32) const;
+	void IngresarLetraUtilizada(TCHAR);
 	bool HaSidoUtilizado(TCHAR);
 };

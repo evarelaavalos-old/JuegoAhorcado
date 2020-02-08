@@ -134,6 +134,8 @@ bool PreguntarPorJugarOtraVez()
 	return Respuesta[0] == 's' || Respuesta[0] == 'S';
 }
 
+//TODO crear una funcion EspaciarCadena que agregue espacios entre los caracteres de la cadena
+//mientras el caracter sea distinto de EOF
 FText ObtenerPalabraEspaciada()
 {
 	FText PalabraOculta = FJAhorcado.ObtenerPalabra();

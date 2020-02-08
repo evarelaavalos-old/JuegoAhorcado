@@ -1,43 +1,15 @@
 #include "FJuegoAhorcado.h"
 
-
 FJuegoAhorcado::FJuegoAhorcado() { Reiniciar(); } // constructor
 
+//public
+FString FJuegoAhorcado::ObtenerPalabra() const { return MiPalabraConFormato; }
+//FString FJuegoAhorcado::ObtenerLetrasUtilizadas() const { return PalabrasUtilizadasComoCadena; }
+//TODO implementar la funcion
 int32 FJuegoAhorcado::ObtenerIntentoActual() const { return MiIntentoActual; }
 int32 FJuegoAhorcado::ObtenerIntentosMaximos() const { return MiIntentosMaximos; }
 int32 FJuegoAhorcado::ObtenerLongitudPalabra() const { return MiPalabraOculta.length(); }
-FString FJuegoAhorcado::ObtenerPalabra() const { return MiPalabraConFormato; }
-
-FString FJuegoAhorcado::ObtenerLetrasUtilizadas()
-{
-	int32 CantidadLetras = LetrasUtilizadas.size();
-
-	if (CantidadLetras == 0) {
-		return "-";
-	}
-	else if (CantidadLetras == 1) {
-		FString Letra(1, LetrasUtilizadas.begin()->first);
-		return Letra;
-	}
-	else {
-		FString Letras = "";
-
-		TMap<TCHAR, bool>::iterator it = LetrasUtilizadas.begin();
-		TMap<TCHAR, bool>::iterator Ultimo = --LetrasUtilizadas.end();
-		for (; it != Ultimo; it++)
-		{
-			Letras.push_back(it->first);
-			Letras.append(", ");
-		}
-		Letras.push_back(Ultimo->first);
-		
-		return Letras;
-	}
-}
-
 bool FJuegoAhorcado::JuegoEstaGanado() const { return bJuegoEstaGanado; }
-
-bool FJuegoAhorcado::HaSidoUtilizado(TCHAR Caracter) { return LetrasUtilizadas[Caracter]; }
 
 void FJuegoAhorcado::Reiniciar()
 {
@@ -51,7 +23,7 @@ void FJuegoAhorcado::Reiniciar()
 	MiPalabraOculta = PALABRA_OCULTA;
 	MiPalabraConFormato = InicializarPalabraConFormato(LONGITUD_PALABRA_OCULTA);
 	bJuegoEstaGanado = false;
-	LetrasUtilizadas.clear();
+	MiLetrasUtilizadas.clear();
 
 	return;
 }
@@ -80,7 +52,7 @@ EEstadoLetra FJuegoAhorcado::CheckearValidacionCaracter(TCHAR CaracIngresado)
 // y hacer de letras restantes una variable global de la clase
 ContadorLetras FJuegoAhorcado::IngresarLetraValida(TCHAR LetraIngresada)
 {
-	LetrasUtilizadas[LetraIngresada] = true;
+	IngresarLetraUtilizada(LetraIngresada);
 
 	ContadorLetras ContLetras;
 	ContLetras.Restantes = MiLetrasRestantes;
@@ -99,8 +71,7 @@ ContadorLetras FJuegoAhorcado::IngresarLetraValida(TCHAR LetraIngresada)
 
 	if (ContLetras.Restantes == 0) {
 		bJuegoEstaGanado = true;
-	}
-	else {
+	} else {
 		bJuegoEstaGanado = false;
 	}
 
@@ -112,10 +83,53 @@ ContadorLetras FJuegoAhorcado::IngresarLetraValida(TCHAR LetraIngresada)
 	return ContLetras;
 }
 
+FString FJuegoAhorcado::ObtenerLetrasUtilizadas()
+{
+	int32 CantidadLetras = MiLetrasUtilizadas.size();
+
+	if (CantidadLetras == 0) {
+		return "-";
+	}
+	else if (CantidadLetras == 1) {
+		FString Letra(1, MiLetrasUtilizadas.begin()->first);
+		return Letra;
+	}
+	else {
+		FString Letras = "";
+
+		TMap<TCHAR, bool>::iterator it = MiLetrasUtilizadas.begin();
+		TMap<TCHAR, bool>::iterator Ultimo = --MiLetrasUtilizadas.end();
+		for (; it != Ultimo; it++)
+		{
+			Letras.push_back(it->first);
+			Letras.append(", ");
+		}
+		Letras.push_back(Ultimo->first);
+		
+		return Letras;
+	}
+}
+
+//PRIVATE
+bool FJuegoAhorcado::HaSidoUtilizado(TCHAR Caracter) { return MiLetrasUtilizadas[Caracter]; }
+
 FString FJuegoAhorcado::InicializarPalabraConFormato(int32 LongitudPalabra) const
 {
+	// TODO Ver si puedo hacer una implementacion de una sola linea
 	FString Palabra = "";
 	for (int32 i = 0; i < LongitudPalabra; i++) { Palabra.push_back('_'); }
 
 	return Palabra;
+}
+
+void FJuegoAhorcado::IngresarLetraUtilizada(TCHAR Letra)
+{
+	MiLetrasUtilizadas[Letra] = true;
+
+
+	//TODO agregar las letras a un string de manera que se pueda presentar al usuario
+		//si la cadena esta vacia
+			//agregar la letra sin mas, por ej: "a"
+		//sino
+			//agregar ", b"
 }
