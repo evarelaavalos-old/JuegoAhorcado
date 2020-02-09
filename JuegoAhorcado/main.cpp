@@ -38,6 +38,7 @@ int main()
 // introduciendo el juego
 void MostrarIntro()
 {
+	// TODO reemplazar las constantes magicas por los llamados a la función
 	int32 LONGITUD_PALABRA_OCULTA = FJAhorcado.ObtenerLongitudPalabra();
 	int32 INTENTOS_MAXIMOS = FJAhorcado.ObtenerIntentosMaximos();
 
