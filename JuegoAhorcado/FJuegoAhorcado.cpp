@@ -7,8 +7,6 @@ FString FJuegoAhorcado::ObtenerPalabra() const { return MiPalabraConFormato; }
 FString FJuegoAhorcado::ObtenerLetrasUtilizadas() const { return MiLetrasUtilizadasComoCadena; }
 int32 FJuegoAhorcado::ObtenerIntentoActual() const { return MiIntentoActual; }
 int32 FJuegoAhorcado::ObtenerIntentosMaximos() const { return MiIntentosMaximos; }
-// TODO quitar la funcion ObtenerLongitudPalabra, no es necesario proveer un metodo para ello
-int32 FJuegoAhorcado::ObtenerLongitudPalabra() const { return MiPalabraOculta.length(); }
 bool FJuegoAhorcado::JuegoEstaGanado() const { return bJuegoEstaGanado; }
 // TODO hacer privado el metodo HaSidoUtilizado
 bool FJuegoAhorcado::HaSidoUtilizado(TCHAR Caracter) { return MiLetrasUtilizadas[Caracter]; }
@@ -33,11 +31,11 @@ void FJuegoAhorcado::Reiniciar()
 
 EEstadoLetra FJuegoAhorcado::CheckearValidacionCaracter(TCHAR CaracIngresado)
 {
-	if (CaracIngresado >= 'A' && CaracIngresado <= 'Z')
+	if (isupper(CaracIngresado))
 	{
 		return EEstadoLetra::No_Minuscula;
 	}
-	else if (!(CaracIngresado >= 'a' && CaracIngresado <= 'z')) // TODO cambiar por la funcion islowercase
+	else if (!(CaracIngresado >= 'a' && CaracIngresado <= 'z'))
 	{
 		return EEstadoLetra::No_Letra;
 	}
@@ -61,7 +59,7 @@ ContadorLetras FJuegoAhorcado::IngresarLetraValida(TCHAR LetraIngresada)
 	ContLetras.Restantes = MiLetrasRestantes;
 
 	// TODO utilizar un range-based loop para hacer mas legible el codigo
-	int32 LONGITUD_PALABRA = ObtenerLongitudPalabra();
+	int32 LONGITUD_PALABRA = MiPalabraOculta.length();
 	// comparar la letra ingresada con cada caracter de la palabra oculta
 	for (int32 CaracPO = 0; CaracPO < LONGITUD_PALABRA; CaracPO++) {
 		// si la letra coincide con algun caracter de la palabra oculta

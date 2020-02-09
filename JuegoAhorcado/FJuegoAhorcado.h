@@ -30,7 +30,6 @@ public:
 	FString ObtenerLetrasUtilizadas() const;
 	int32 ObtenerIntentoActual() const;
 	int32 ObtenerIntentosMaximos() const;
-	int32 ObtenerLongitudPalabra() const;
 	bool JuegoEstaGanado() const;
 	bool HaSidoUtilizado(TCHAR);
 	

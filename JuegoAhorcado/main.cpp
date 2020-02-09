@@ -38,14 +38,9 @@ int main()
 // introduciendo el juego
 void MostrarIntro()
 {
-	// TODO reemplazar las constantes magicas por los llamados a la función
-	int32 LONGITUD_PALABRA_OCULTA = FJAhorcado.ObtenerLongitudPalabra();
-	int32 INTENTOS_MAXIMOS = FJAhorcado.ObtenerIntentosMaximos();
-
-	std::cout << "Bienvenido al juego del Ahorcado! ";
-	std::cout << "Un divertido juego de palabras!\n";
-	std::cout << "Podras adivinar esta palabra de " << LONGITUD_PALABRA_OCULTA;
-	std::cout << " letras antes de agotar los " << INTENTOS_MAXIMOS;
+	std::cout << "Bienvenido al juego del Ahorcado, un divertido juego de palabras!\n";
+	std::cout << "Podras adivinar esta palabra de " << FJAhorcado.ObtenerPalabra().length();
+	std::cout << " letras antes de agotar los " << FJAhorcado.ObtenerIntentosMaximos();
 	std::cout << " intentos?\n";
 	std::cout << std::endl;
 }
@@ -140,7 +135,7 @@ bool PreguntarPorJugarOtraVez()
 FText ObtenerPalabraEspaciada()
 {
 	FText PalabraOculta = FJAhorcado.ObtenerPalabra();
-	int32 LongitudPalabra = FJAhorcado.ObtenerLongitudPalabra();
+	int32 LongitudPalabra = PalabraOculta.length();
 
 	FText PalabraEspaciada = "";
 	for (int32 CaracPO = 0; CaracPO < LongitudPalabra - 1; CaracPO++) {
